@@ -144,7 +144,6 @@ export const loginUser = async (body: UserLoginInput) => {
     }
   }
 
-  console.log('will throwing error..');
   //if user does not exist or registered incorrectly respoonse with 400
   throw new wwsError(
     HttpStatusCode.UNAUTHORIZED,
