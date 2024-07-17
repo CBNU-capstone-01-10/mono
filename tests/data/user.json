@@ -1,0 +1,83 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "testUser1",
+      "pfp": "./pfp.png",
+      "encrypted_password": "$2b$10$6ZbxBKRk1qdhySGQeN5Iw.CTA4XFCVGL9KHkZnabitdjSRegvBif2",
+      "email": "testEmail1@test.com",
+      "email_verification": {
+        "create": {
+          "email_verified": true,
+          "verify_token": "testVerifyToken",
+          "expired_at": "2023-09-22T12:34:56.789Z"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "username": "testUser2",
+      "pfp": "./pfp.png",
+      "encrypted_password": "$2b$10$6ZbxBKRk1qdhySGQeN5Iw.CTA4XFCVGL9KHkZnabitdjSRegvBif2",
+      "email": "testEmail2@test.com",
+      "email_verification": {
+        "create": {
+          "email_verified": true,
+          "verify_token": "testVerifyToken",
+          "expired_at": "2023-09-22T12:34:56.789Z"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "username": "testUser3",
+      "pfp": "./pfp.png",
+      "encrypted_password": "$2b$10$6ZbxBKRk1qdhySGQeN5Iw.CTA4XFCVGL9KHkZnabitdjSRegvBif2",
+      "email": "testEmail3@test.com",
+      "email_verification": {
+        "create": {
+          "email_verified": true,
+          "verify_token": "testVerifyToken",
+          "expired_at": "2023-09-22T12:34:56.789Z"
+        }
+      }
+    }
+  ],
+  "newUser": {
+    "username": "testUser4",
+    "email": "testEmail4@test.com",
+    "password": "testStrongPassword"
+  },
+  "verifyQuery": {
+    "invalid": {
+      "user_id": 123456,
+      "token": "notExistVerifyToken"
+    }
+  },
+  "expired_user": {
+    "id": 200,
+    "username": "expiredTestUser",
+    "pfp": "./pfp.png",
+    "encrypted_password": "$2b$10$6ZbxBKRk1qdhySGQeN5Iw.CTA4XFCVGL9KHkZnabitdjSRegvBif2",
+    "email": "testEmailExpired@test.com",
+    "email_verification": {
+      "create": {
+        "email_verified": false,
+        "verify_token": "testVerifyToken",
+        "expired_at": ""
+      }
+    }
+  },
+  "registerInput": {
+    "invalid": {
+      "username": "username must be longer than 12 characters",
+      "password": "weakPW",
+      "email": "invalidEmail"
+    },
+    "valid": {
+      "username": "testUser4",
+      "password": "strongPassword12!",
+      "email": "testEmail@test.com"
+    }
+  }
+}

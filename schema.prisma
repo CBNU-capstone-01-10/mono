@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                 Int                 @id @default(autoincrement())
+  username           String
+  encrypted_password String
+  email              String
+  pfp                String
+  created_at         DateTime            @default(now())
+  updated_at         DateTime            @updatedAt
+  email_verification email_verification?
+}
+
+model email_verification {
+  email_verified Boolean
+  verify_token   String
+  created_at     DateTime @default(now())
+  expired_at     DateTime
+  user_id        Int      @unique
+  user           user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
