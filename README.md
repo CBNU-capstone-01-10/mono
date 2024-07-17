@@ -1,10 +1,6 @@
-# wws Authorization server
+# wangnooni account server
 
-- account management
-- authentication 
-- authorization
-
-모두 이 서버가 수행합니다
+- account management를 위한 서버입니다.
 
 ## fill environment variable 
 .env.example 파일을 참고해 .env를 작성하세요
