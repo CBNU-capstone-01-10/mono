@@ -12,6 +12,7 @@ account management를 위한 서버입니다.
     yarn install
 
 ## push database schema
+먼저, mysql이 install 되어있고 mysql 서버가 실행되고 있는지 확인해주세요
 
     yarn run db:push:dev
 
@@ -19,7 +20,7 @@ account management를 위한 서버입니다.
 
 ## test
 
-    // test
+    // test all 
     yarn run test
 
     // unit test
