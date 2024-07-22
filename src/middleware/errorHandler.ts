@@ -1,14 +1,17 @@
 import { wwsError } from '../error/wwsError';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-const errorHandler = (err: wwsError, req: Request, res: Response) => {
-  console.log(err);
-
+const errorHandler = (
+  err: wwsError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   //logging system error
   if (err.originError) {
     const originError = err.originError;
 
-    console.error(originError);
+    console.log(originError);
   }
 
   return res.status(err.status).json({

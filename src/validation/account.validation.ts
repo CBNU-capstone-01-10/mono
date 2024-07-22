@@ -20,7 +20,7 @@ const login: ValidationSchema = {
 };
 
 const verify: ValidationSchema = {
-  query: joi.object().keys({
+  body: joi.object().keys({
     user_id: joi.string().required(),
     token: joi.string().required(),
   }),

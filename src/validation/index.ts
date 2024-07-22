@@ -1,3 +1,3 @@
-import userValidation from './user.validation';
+import userValidation from './account.validation';
 
 export { userValidation };

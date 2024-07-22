@@ -12,7 +12,7 @@ interface defaultConfig {
 }
 
 interface VerificationMailConfig extends defaultConfig {
-  verificationLink: string;
+  token: string;
 }
 
 class Mailer {
@@ -30,14 +30,14 @@ class Mailer {
     const html = await ejs.renderFile(
       path.join(this.templatesPath, 'verification/index.ejs'),
       {
-        link: config.verificationLink,
+        token: config.token,
       }
     );
 
     const messageConfig: nodemailer.SendMailOptions = {
       from: this.sender.src,
       to: config.dst,
-      subject: 'verification link',
+      subject: '왕눈이 계정 인증코드',
       html,
     };
 

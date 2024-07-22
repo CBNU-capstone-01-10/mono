@@ -2,11 +2,12 @@ import prismaClient from '../database';
 import { wwsError } from '../error/wwsError';
 import HttpStatusCode from 'http-status-codes';
 import bcrypt from 'bcrypt';
-import getRandomString from '../utils/rs';
 import mailer from '../utils/mailer';
 import pick from '../utils/pick';
 import moment from 'moment';
 import { PublicUserInfo } from '../../@types/user';
+import { Request } from 'express';
+import otpGenerator from 'otp-generator';
 
 interface UserCreateInput {
   username: string;
@@ -47,6 +48,8 @@ export const createUser = async (data: UserCreateInput) => {
         where: { id: registeredUser.id },
       });
 
+      // 이미 존재하는 user가 email verified 되지 않은 상태여서 제거했는데
+      // 제거되지 않았다면, 잘못된 동작
       if (!deletedUser) {
         throw new wwsError(
           HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -56,12 +59,14 @@ export const createUser = async (data: UserCreateInput) => {
     }
   }
 
-  //정상적인  user creation을 수행한다.
+  //정상적인 user creation을 수행한다.
   const salt = await bcrypt.genSalt(10);
 
   const encrypted_password = await bcrypt.hash(data.password, salt);
 
-  const verify_token = await bcrypt.hash(getRandomString(10), salt);
+  const verify_token = otpGenerator.generate(8, {
+    upperCaseAlphabets: true,
+  });
 
   const createdUser = await prismaClient.user.create({
     data: {
@@ -80,7 +85,7 @@ export const createUser = async (data: UserCreateInput) => {
   });
 
   await mailer.sendVerificationMail({
-    verificationLink: `${process.env.SERVER_URL}/auth/signup/verify?user_id=${createdUser?.id}&token=${verify_token}`,
+    token: verify_token,
     dst: data.email,
   });
 
@@ -149,6 +154,15 @@ export const loginUser = async (body: UserLoginInput) => {
     HttpStatusCode.UNAUTHORIZED,
     'account does not registered'
   );
+};
+
+export const logoutUser = async (req: Request) => {
+  req.session.destroy((err) => {
+    if (err) {
+      // internal server error가 응답될 거다.
+      throw err;
+    }
+  });
 };
 
 export const getPublicUserInfo = (user: Record<string, any>) =>

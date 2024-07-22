@@ -180,11 +180,43 @@ describe('Account API Endpoints', () => {
 
         expect(user).toBeDefined();
 
-        const res = await request(app).get(
-          `/register/verify?user_id=${user?.id}&token=${user?.email_verification?.verify_token}`
-        );
+        const res = await request(app)
+          .post(`/register/verify`)
+          .send({
+            user_id: user?.id,
+            token: user?.email_verification?.verify_token,
+          })
+          .set({
+            'Content-Type': 'application/x-www-form-urlencoded',
+          });
 
         expect(res.status).toEqual(200);
+      });
+
+      test('Response_200_If_Already_Verified)', async () => {
+        const user = await prismaClient.user.findFirst({
+          where: {
+            username: testUserData.newUser.username,
+            email: testUserData.newUser.email,
+          },
+          include: {
+            email_verification: true,
+          },
+        });
+
+        expect(user).toBeDefined();
+
+        const res = await request(app)
+          .post(`/register/verify`)
+          .send({
+            user_id: user?.id,
+            token: user?.email_verification?.verify_token,
+          })
+          .set({
+            'Content-Type': 'application/x-www-form-urlencoded',
+          });
+
+        expect(res.status).toEqual(400);
       });
 
       test('Response_400_Token(expired)', async () => {
@@ -198,21 +230,27 @@ describe('Account API Endpoints', () => {
           },
         });
 
-        const res = await request(app).get(
-          `/register/verify?user_id=${user?.id}&token=${user?.email_verification?.verify_token}`
-        );
+        expect(user).toBeDefined();
+
+        const res = await request(app).post(`/register/verify`).send({
+          user_id: user?.id,
+          token: user?.email_verification?.verify_token,
+        });
 
         expect(res.status).toEqual(400);
       });
+
       test('Response_400_UserId(x)_Token(X)', (done) => {
-        request(app).get('/register/verify').expect(400).end(done);
+        request(app).post('/register/verify').expect(400).end(done);
       });
 
       test('Response_404_Token(?)', (done) => {
         request(app)
-          .get(
-            `/register/verify?user_id=1234&token=${testUserData.verifyQuery.invalid.token}`
-          )
+          .post(`/register/verify`)
+          .send({
+            user_id: 1234,
+            token: testUserData.verifyQuery.invalid.token,
+          })
           .expect(400)
           .end(done);
       });
@@ -263,6 +301,53 @@ describe('Account API Endpoints', () => {
         })
         .expect(401)
         .end(done);
+    });
+  });
+
+  describe('Logout', () => {
+    const currentUser: Record<string, any> = {
+      ...testUserData.users[0],
+      password: 'StrongPassword12!',
+    };
+
+    beforeAll(async () => {
+      const res = await request(app)
+        .post('/login')
+        .set({
+          'Content-Type': 'application/x-www-form-urlencoded',
+        })
+        .send({
+          email: currentUser.email,
+          password: currentUser.password,
+        });
+
+      expect(res.statusCode).toEqual(200);
+
+      const cookieStrings = res.headers['set-cookie'];
+      let sidCookie = '';
+
+      for (const cookieString of cookieStrings) {
+        const _cookie = cookie.parse(cookieString);
+        if (Object.keys(_cookie).includes(sessionIdName)) {
+          sidCookie = cookie.serialize(sessionIdName, _cookie._dev_sid);
+        }
+      }
+
+      expect(sidCookie).not.toBe('');
+
+      currentUser.sidCookie = sidCookie;
+    });
+
+    test('Response_204', (done) => {
+      request(app)
+        .delete('/logout')
+        .set('Cookie', currentUser.sidCookie)
+        .expect(204)
+        .end(done);
+    });
+
+    test('Response_409_Sid_Does_Not_Include', (done) => {
+      request(app).delete('/logout').expect(401).end(done);
     });
   });
 });
