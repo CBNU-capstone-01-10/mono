@@ -10,3 +10,5 @@ function serverListening() {
 }
 
 server.listen(process.env.PORT, serverListening);
+
+export default server;
