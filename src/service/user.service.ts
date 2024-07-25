@@ -156,12 +156,16 @@ export const loginUser = async (body: UserLoginInput) => {
   );
 };
 
-export const logoutUser = async (req: Request) => {
-  req.session.destroy((err) => {
-    if (err) {
-      // internal server error가 응답될 거다.
-      throw err;
-    }
+export const logoutUser = (req: Request) => {
+  return new Promise((resolve, reject) => {
+    req.session.destroy((err) => {
+      if (err) {
+        // internal server error가 응답될 거다.
+        reject(err);
+      }
+    });
+
+    resolve(undefined);
   });
 };
 
