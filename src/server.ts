@@ -7,7 +7,7 @@ import redisClient from './database/clients/redis';
 const server = http.createServer(app);
 
 function serverListening() {
-  console.log(`Server is listening on port ${process.env.PORT}`);
+  console.log(`Server is listening on port ${process.env.PORT} 🔥`);
   redisClient.connect();
 }
 
