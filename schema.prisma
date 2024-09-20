@@ -19,6 +19,7 @@ model user {
   created_at         DateTime            @default(now())
   updated_at         DateTime            @updatedAt
   email_verification email_verification?
+  action             action[]
 }
 
 model email_verification {
@@ -28,4 +29,15 @@ model email_verification {
   expired_at     DateTime
   user_id        Int      @unique
   user           user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model action {
+  id          Int      @id @default(autoincrement())
+  label       String
+  score       Int
+  location_x  Float
+  location_y  Float
+  recorded_at DateTime @default(now())
+  user_id     Int
+  user        user?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
