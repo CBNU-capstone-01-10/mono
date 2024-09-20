@@ -1,10 +1,11 @@
 import prismaClient from '../../src/database';
 import request from 'supertest';
 import testUserData from '../data/user.json';
-import server from '../../src/server';
+import app from '../../src/app';
 import moment from 'moment';
 import cookie from 'cookie';
 import { sessionIdName } from '../../src/config/session.config';
+import redisClient from '../../src/database/clients/redis';
 
 jest.unmock('../../src/database');
 
@@ -19,21 +20,22 @@ describe('Account API Endpoints', () => {
         data: user,
       });
     });
+    await redisClient.connect();
   });
 
   // tear down
   // - seed user data를 모두 제거한다.
-  // - server를 종료한다.
+  // - app를 종료한다.
   afterAll(async () => {
     await prismaClient.user.deleteMany({});
-    server.close();
+    await redisClient.disconnect();
   });
 
   describe('Register', () => {
     describe('POST', () => {
       // 정상적인 회원가입 요청에 대해 200을 응답받아야한다.
       test('Response_201', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.newUser.username,
@@ -49,7 +51,7 @@ describe('Account API Endpoints', () => {
 
       // 이미 등록된 이메일이 포함된 회원가입 요청에 대해 409를 응답받아야한다.
       test('Response_409_Email(!)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.users[0].username,
@@ -65,7 +67,7 @@ describe('Account API Endpoints', () => {
 
       // 사용자이름이 포함되지 않은 회원가입 요청에 대해 400을 응답받아야한다.
       test('Response_400_Username(x)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             email: testUserData.registerInput.valid.username,
@@ -80,7 +82,7 @@ describe('Account API Endpoints', () => {
 
       // 이메일이 포함되지 않은 회원가입 요청에 대해 400을 응답받아야한다.
       test('Response_400_Email(x)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.registerInput.valid.username,
@@ -95,7 +97,7 @@ describe('Account API Endpoints', () => {
 
       // 비밀번호가 포함되지 않은 회원가입 요청에 대해 400을 응답받아야한다.
       test('Response_400_Password(x)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.registerInput.valid.username,
@@ -110,7 +112,7 @@ describe('Account API Endpoints', () => {
 
       // 유효하지 않은 형식의 사용자이름이 포함된 회원가입 요청에 대해 400을 응답받아야한다.
       test('Response_400_Username(?)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.registerInput.invalid.username,
@@ -126,7 +128,7 @@ describe('Account API Endpoints', () => {
 
       // 유효하지 않은 형식의 이메일이 포함된 회원가입 요청에 대해 400을 응답받아야한다.
       test('Response_400_Email(?)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.registerInput.valid.username,
@@ -142,7 +144,7 @@ describe('Account API Endpoints', () => {
 
       // 유효하지 않은 형식의 비밀번호가 포함된 회원가입 요청에 대해 400을 응답받아야한다.
       test('Response_400_Password(?)', (done) => {
-        request(server)
+        request(app)
           .post('/register')
           .send({
             username: testUserData.registerInput.valid.username,
@@ -182,7 +184,7 @@ describe('Account API Endpoints', () => {
 
         expect(user).toBeDefined();
 
-        const res = await request(server)
+        const res = await request(app)
           .post(`/register/verify`)
           .send({
             user_id: user?.id,
@@ -208,7 +210,7 @@ describe('Account API Endpoints', () => {
 
         expect(user).toBeDefined();
 
-        const res = await request(server)
+        const res = await request(app)
           .post(`/register/verify`)
           .send({
             user_id: user?.id,
@@ -234,7 +236,7 @@ describe('Account API Endpoints', () => {
 
         expect(user).toBeDefined();
 
-        const res = await request(server).post(`/register/verify`).send({
+        const res = await request(app).post(`/register/verify`).send({
           user_id: user?.id,
           token: user?.email_verification?.verify_token,
         });
@@ -243,11 +245,11 @@ describe('Account API Endpoints', () => {
       });
 
       test('Response_400_UserId(x)_Token(X)', (done) => {
-        request(server).post('/register/verify').expect(400).end(done);
+        request(app).post('/register/verify').expect(400).end(done);
       });
 
       test('Response_404_Token(?)', (done) => {
-        request(server)
+        request(app)
           .post(`/register/verify`)
           .send({
             user_id: 1234,
@@ -261,7 +263,7 @@ describe('Account API Endpoints', () => {
 
   describe('Login', () => {
     test('Redirect_To_Redirect_Uri_With_With_Sid_200', (done) => {
-      request(server)
+      request(app)
         .post('/login')
         .send({
           email: testUserData.newUser.email,
@@ -291,7 +293,7 @@ describe('Account API Endpoints', () => {
     });
 
     test('Response_401_Credential_Does_Not_Exist', (done) => {
-      request(server)
+      request(app)
         .post('/login')
         .send({
           // not registered credential
@@ -313,7 +315,7 @@ describe('Account API Endpoints', () => {
     };
 
     beforeAll(async () => {
-      const res = await request(server)
+      const res = await request(app)
         .post('/login')
         .set({
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -341,7 +343,7 @@ describe('Account API Endpoints', () => {
     });
 
     test('Response_204', (done) => {
-      request(server)
+      request(app)
         .delete('/logout')
         .set('Cookie', currentUser.sidCookie)
         .expect(204)
@@ -349,7 +351,7 @@ describe('Account API Endpoints', () => {
     });
 
     test('Response_409_Sid_Does_Not_Include', (done) => {
-      request(server).delete('/logout').expect(401).end(done);
+      request(app).delete('/logout').expect(401).end(done);
     });
   });
 });

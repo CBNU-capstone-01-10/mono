@@ -1,3 +1,4 @@
 import accountRouter from './account.route';
+import actionRouter from './action.route';
 
-export { accountRouter };
+export { accountRouter, actionRouter };

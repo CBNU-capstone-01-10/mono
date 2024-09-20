@@ -17,10 +17,11 @@ app.use(express.static(`${process.cwd()}/public`));
 app.use(express.static(`${process.cwd()}/uploads`));
 
 //import routers
-import { accountRouter } from './routes';
+import { accountRouter, actionRouter } from './routes';
 
 //use router
 app.use('/', accountRouter);
+app.use('/action', actionRouter);
 
 //response 404 for any request to unknown endpoint
 app.use('*', NotFound);

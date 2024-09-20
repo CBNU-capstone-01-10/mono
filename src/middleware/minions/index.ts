@@ -85,6 +85,7 @@ function minion(options: Config) {
     const fileAppender = new FileAppender(req, options.limits.files);
 
     bb.on('file', (name, stream, fileInfo) => {
+      console.log('file parsing을 시작합니다!');
       // busboy는 stream을 모두 consume해야 'finish' event가 emit되기 때문에
       // stream을 그대로 req.file | req.files 에 attach할 수 없기 때문에 passThrough로 옮겨 attach한다.
       const _stream = new PassThrough();
@@ -118,6 +119,7 @@ function minion(options: Config) {
     // parsing, attach 과정이 문제없이 종료되거나, 에러가 발생했을 때 call하는 function으로,
     // req 아 bb 를 unpipe하고 next middleware를 call한다.
     function done(err?: any) {
+      console.log('file parsing이 종료되었습니다!');
       req.unpipe(bb);
 
       if (err) {
