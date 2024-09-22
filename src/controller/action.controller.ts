@@ -1,20 +1,19 @@
-import prismaClient from '../database';
 import asyncCatch from '../utils/asyncCatch';
 import { Request, Response } from 'express';
+import { actionService } from '../service';
 
 export const createAction = asyncCatch(async (req: Request, res: Response) => {
-  console.log('reach!!!', req.body, req.file);
-  // fetch to model server
+  // must replace response of model
+  const score = -10;
+  const label = '한손운전';
 
-  // temp
-  const action = await prismaClient.action.create({
-    data: {
-      label: '한손운전',
-      location_x: parseFloat(req.body.location_x),
-      location_y: parseFloat(req.body.location_y),
-      score: -10,
-      user_id: req.session.userId as number,
-    },
+  const action = await actionService.createAction({
+    user_id: req.session.userId as number,
+    location_x: parseFloat(req.body.location_x),
+    location_y: parseFloat(req.body.location_y),
+    score,
+    label,
+    capture_file: req.file as Express.Multer.File,
   });
 
   return res.status(201).json(action);
