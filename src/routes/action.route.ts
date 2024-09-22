@@ -1,15 +1,18 @@
 import { Router } from 'express';
 
 import validate from '../middleware/validate';
-import minion from '../middleware/minions';
 import actionValidation from '../validation/action.validation';
 import { createAction } from '../controller/action.controller';
+import { uploadPath } from '../config/path.config';
+
+import multer from 'multer';
+const upload = multer({ dest: uploadPath.action.capture });
 
 const router = Router();
 
 router.post(
   '/',
-  minion({ limits: { files: 1 } }),
+  upload.single('capture'),
   validate(actionValidation.createAction),
   createAction
 );
