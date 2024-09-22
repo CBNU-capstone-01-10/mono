@@ -9,7 +9,7 @@ yarn-error.log
 
 log/*
 
-uploads/client/logo/*
-!uploads/client/logo/.gitkeep
+uploads/action/capture/*
+!uploads/action/capture/.gitkeep
 
 !*/.gitkeep
