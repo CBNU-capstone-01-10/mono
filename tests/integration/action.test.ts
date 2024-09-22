@@ -26,6 +26,8 @@ mockApp.all('*', (req, res, next) => {
 
 mockApp.use(app);
 
+const captureImagePath = './tests/data/images/capture.png';
+
 describe('Action API', () => {
   beforeAll(async () => {
     for (const user of testUserData.users) {
@@ -42,16 +44,14 @@ describe('Action API', () => {
   });
 
   describe('POST', () => {
-    const capture = fs.createReadStream('./tests/data/images/cature.png');
-
     test('Response_201_With_Action', async () => {
       const res = await request(mockApp)
         .post('/action')
         .set('Content-Type', 'multipart/form-data')
         .field('location_x', 34.6)
         .field('location_y', 32.4)
-        .attach('capture', capture);
-                                    
+        .attach('capture', fs.createReadStream(captureImagePath));
+
       expect(res.statusCode).toEqual(201);
     });
 
@@ -60,7 +60,7 @@ describe('Action API', () => {
         .post('/action')
         .set('Content-Type', 'multipart/form-data')
         .field('location_x', 34.6)
-        .attach('capture', capture);
+        .attach('capture', fs.createReadStream(captureImagePath));
 
       expect(res.statusCode).toEqual(400);
     });
@@ -70,7 +70,7 @@ describe('Action API', () => {
         .post('/action')
         .set('Content-Type', 'multipart/form-data')
         .field('location_y', 32.4)
-        .attach('capture', capture);
+        .attach('capture', fs.createReadStream(captureImagePath));
 
       expect(res.statusCode).toEqual(400);
     });
