@@ -9,6 +9,7 @@ import app from '../../src/app';
 import redisClient from '../../src/database/clients/redis';
 import request from 'supertest';
 import fs from 'node:fs';
+import path from 'node:path';
 
 const currUser = { ...testUserData.users[0] };
 
@@ -39,6 +40,13 @@ describe('Action API', () => {
   });
 
   afterAll(async () => {
+    const uploadedFiles = fs.readdirSync('./uploads/action/capture');
+
+    for (const uploadedFilePath of uploadedFiles) {
+      fs.unlinkSync(path.join('./uploads/action/capture', uploadedFilePath));
+    }
+
+    await prismaClient.action.deleteMany({});
     await prismaClient.user.deleteMany({});
     await redisClient.disconnect();
   });
