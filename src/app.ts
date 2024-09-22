@@ -3,7 +3,7 @@ import sessionConfig from './config/session.config';
 import session from 'express-session';
 import NotFound from './middleware/notFound';
 import errorHandler from './middleware/errorHandler';
-
+import authMiddleware from './middleware/auth';
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -21,7 +21,7 @@ import { accountRouter, actionRouter } from './routes';
 
 //use router
 app.use('/', accountRouter);
-app.use('/action', actionRouter);
+app.use('/action', authMiddleware, actionRouter);
 
 //response 404 for any request to unknown endpoint
 app.use('*', NotFound);
