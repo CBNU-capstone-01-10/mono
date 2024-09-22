@@ -46,7 +46,7 @@ describe('Action API', () => {
   describe('POST', () => {
     test('Response_201_With_Action', async () => {
       const res = await request(mockApp)
-        .post('/action')
+        .post('/actions')
         .set('Content-Type', 'multipart/form-data')
         .field('location_x', 34.6)
         .field('location_y', 32.4)
@@ -57,7 +57,7 @@ describe('Action API', () => {
 
     test('Response_400_Location_X(x)', async () => {
       const res = await request(mockApp)
-        .post('/action')
+        .post('/actions')
         .set('Content-Type', 'multipart/form-data')
         .field('location_x', 34.6)
         .attach('capture', fs.createReadStream(captureImagePath));
@@ -67,7 +67,7 @@ describe('Action API', () => {
 
     test('Response_400_Location_Y(x)', async () => {
       const res = await request(mockApp)
-        .post('/action')
+        .post('/actions')
         .set('Content-Type', 'multipart/form-data')
         .field('location_y', 32.4)
         .attach('capture', fs.createReadStream(captureImagePath));
@@ -77,7 +77,7 @@ describe('Action API', () => {
 
     test('Response_400_Capture(x)', async () => {
       const res = await request(mockApp)
-        .post('/action')
+        .post('/actions')
         .set('Content-Type', 'multipart/form-data')
         .field('location_x', 34.6)
         .field('location_y', 32.4);

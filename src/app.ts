@@ -21,7 +21,7 @@ import { accountRouter, actionRouter } from './routes';
 
 //use router
 app.use('/', accountRouter);
-app.use('/action', authMiddleware, actionRouter);
+app.use('/actions', authMiddleware, actionRouter);
 
 //response 404 for any request to unknown endpoint
 app.use('*', NotFound);
