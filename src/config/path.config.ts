@@ -1,8 +1,11 @@
 import path from 'path';
 
 const to = {
-  client: {
-    logo: 'client/logo/',
+  user: {
+    pfp: 'user/pfp/',
+  },
+  action: {
+    capture: 'action/capture',
   },
 };
 
@@ -10,15 +13,21 @@ const servingRootURL = new URL(process.env.SERVER_URL);
 
 const servingURL = {
   client: {
-    logo: new URL(to.client.logo, servingRootURL),
+    pfp: new URL(to.user.pfp, servingRootURL),
+  },
+  action: {
+    capture: new URL(to.action.capture, servingRootURL),
   },
 };
 
 const uploadRootPath = path.join(process.cwd(), 'uploads');
 
 const uploadPath = {
-  client: {
-    logo: path.join(uploadRootPath, to.client.logo),
+  user: {
+    pfp: path.join(uploadRootPath, to.user.pfp),
+  },
+  action: {
+    capture: path.join(uploadRootPath, to.action.capture),
   },
 };
 
