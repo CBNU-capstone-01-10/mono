@@ -15,11 +15,12 @@ describe('Account API Endpoints', () => {
   // setup
   // seed user data를 생성한다.
   beforeAll(async () => {
-    testUserData.users.forEach(async (user) => {
+    for (const user of testUserData.users) {
       await prismaClient.user.create({
         data: user,
       });
-    });
+    }
+
     await redisClient.connect();
   });
 
