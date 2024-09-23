@@ -1,7 +1,12 @@
 import prismaClient from '../database';
-import { ActionCreateInput, ActionGetInput } from '../../@types/action';
+import {
+  ActionCreateInput,
+  ActionGetInput,
+  ActionsGetInput,
+} from '../../@types/action';
 import { servingURL } from '../config/path.config';
 import { wwsError } from '../error/wwsError';
+import moment from 'moment';
 
 export const createAction = async (data: ActionCreateInput) => {
   const captureServingURL = new URL(
@@ -36,4 +41,47 @@ export const getAction = async (data: ActionGetInput) => {
   }
 
   return action;
+};
+
+// filter는 2가지가 가능하며, 중복될 순 없다.
+// - start, end가 모두 명시된 경우 : start date ~ end date의 모든 action을 가져온다.
+// - before_m 만이 명시된 경우 : 현재 시간으로 before_m 분전의 모든 action을 가져온다.
+export const getActions = async (data: ActionsGetInput) => {
+  let actions;
+
+  if (data.before_m && !data.date_start && !data.date_end) {
+    const curr = moment();
+    const end = moment().subtract(data.before_m, 'minute');
+
+    actions = await prismaClient.action.findMany({
+      where: {
+        recorded_at: {
+          lte: curr.toDate(),
+          gte: end.toDate(),
+        },
+      },
+    });
+  } else if (!data.before_m && data.date_start && data.date_end) {
+    const date_start = moment(data.date_start);
+    const date_end = moment(data.date_end);
+
+    if (date_start > date_end) {
+      throw new wwsError(400, 'date_start can not greater than date_end');
+    }
+
+    actions = await prismaClient.action.findMany({
+      where: {
+        recorded_at: {
+          lte: date_end.toDate(),
+          gte: date_start.toDate(),
+        },
+      },
+    });
+  }
+  // 둘이 모두 명시되어있지 않다면, 잘못된 요청이다.
+  else {
+    throw new wwsError(400, 'bad query parameter combination');
+  }
+
+  return actions;
 };

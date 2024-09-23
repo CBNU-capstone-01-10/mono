@@ -27,3 +27,12 @@ export const getAction = asyncCatch(async (req: Request, res: Response) => {
 
   return res.status(200).json(action);
 });
+
+export const getActions = asyncCatch(async (req: Request, res: Response) => {
+  const actions = await actionService.getActions({
+    user_id: req.session.userId as number,
+    ...req.query,
+  });
+
+  return res.status(200).json(actions);
+});

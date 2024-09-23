@@ -2,7 +2,11 @@ import { Router } from 'express';
 
 import validate from '../middleware/validate';
 import actionValidation from '../validation/action.validation';
-import { createAction, getAction } from '../controller/action.controller';
+import {
+  createAction,
+  getAction,
+  getActions,
+} from '../controller/action.controller';
 import { uploadPath } from '../config/path.config';
 import mime from 'mime';
 import multer from 'multer';
@@ -24,6 +28,7 @@ const upload = multer({ storage });
 
 const router = Router();
 
+router.get('/', validate(actionValidation.getActions), getActions);
 router.get('/:action_id', validate(actionValidation.getAction), getAction);
 router.post(
   '/',

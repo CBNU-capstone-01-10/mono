@@ -1,54 +1,514 @@
 {
-  "actions": [
+  "actions": {
+    "gap1s": [
+      {
+        "id": 1,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:32"
+      },
+      {
+        "id": 2,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:33"
+      },
+      {
+        "id": 3,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:34"
+      },
+      {
+        "id": 4,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:35"
+      },
+      {
+        "id": 5,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:36"
+      },
+      {
+        "id": 6,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:37"
+      },
+      {
+        "id": 7,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:38"
+      },
+      {
+        "id": 8,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:39"
+      },
+      {
+        "id": 9,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:40"
+      },
+      {
+        "id": 10,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:41"
+      }
+    ],
+    "gap1m": [
+      {
+        "id": 11,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:32"
+      },
+      {
+        "id": 12,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:26:32"
+      },
+      {
+        "id": 13,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:27:32"
+      },
+      {
+        "id": 14,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:28:32"
+      },
+      {
+        "id": 15,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:29:32"
+      },
+      {
+        "id": 16,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:30:32"
+      },
+      {
+        "id": 17,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:31:32"
+      },
+      {
+        "id": 18,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:32:32"
+      },
+      {
+        "id": 19,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:33:32"
+      },
+      {
+        "id": 20,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:34:32"
+      }
+    ],
+    "gap1h": [
+      {
+        "id": 21,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:32"
+      },
+      {
+        "id": 22,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 13:25:32"
+      },
+      {
+        "id": 23,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 14:25:32"
+      },
+      {
+        "id": 24,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 15:25:32"
+      },
+      {
+        "id": 25,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 16:25:32"
+      },
+      {
+        "id": 26,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 17:25:32"
+      },
+      {
+        "id": 27,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 18:25:32"
+      },
+      {
+        "id": 28,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "졸음운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 19:25:32"
+      },
+      {
+        "id": 29,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "음주운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 20:25:32"
+      },
+      {
+        "id": 30,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 21:25:32"
+      }
+    ],
+    "gap4h": [
+      {
+        "id": 31,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -20,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 12:25:32"
+      },
+      {
+        "id": 32,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -19,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 16:25:32"
+      },
+      {
+        "id": 33,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -18,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-22 20:25:32"
+      },
+      {
+        "id": 34,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -17,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-23 00:25:32"
+      },
+      {
+        "id": 35,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -16,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-23 04:25:32"
+      },
+      {
+        "id": 36,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -15,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-23 08:25:32"
+      },
+      {
+        "id": 37,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -14,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-23 12:25:32"
+      },
+      {
+        "id": 38,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -13,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-23 16:25:32"
+      },
+      {
+        "id": 39,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -12,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-23 20:25:32"
+      },
+      {
+        "id": 40,
+        "user_id": 1,
+        "location_x": 31.4,
+        "location_y": 32.5,
+        "score": -11,
+        "label": "한손운전",
+        "capture": "https://example.com/images/test.png",
+        "recorded_at": "2024-09-24 00:25:32"
+      }
+    ]
+  },
+  "emptyRecordedDateActions": [
     {
-      "id" : 1,
-      "user_id" : 1,
+      "id": 41,
+      "user_id": 1,
       "location_x": 31.4,
       "location_y": 32.5,
       "score": -20,
       "label": "한손운전",
-      "capture" : "https://example.com/images/test.png",
-      "recorded_at": "1997-07-16T19:20:30.451Z"
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
     },
     {
-      "id" : 2,
-      "user_id" : 1,
+      "id": 42,
+      "user_id": 1,
       "location_x": 31.4,
       "location_y": 32.5,
-      "score": -20,
-      "label": "졸음운전",
-      "capture" : "https://example.com/images/test.png",
-      "recorded_at": "1997-07-16T19:20:30.451Z"
-    },
-    {
-      "id" : 3,
-      "user_id" : 1,
-      "location_x": 31.4,
-      "location_y": 32.5,
-      "score": -20,
-      "label": "음주운전",
-      "capture" : "https://example.com/images/test.png",
-      "recorded_at": "1997-07-16T19:20:30.451Z"
-    },
-    {
-      "id" : 4,
-      "user_id" : 1,
-      "location_x": 31.4,
-      "location_y": 32.5,
-      "score": -20,
+      "score": -19,
       "label": "한손운전",
-      "capture" : "https://example.com/images/test.png",
-      "recorded_at": "1997-07-16T19:20:30.451Z"
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
     },
     {
-      "id" : 5,
-      "user_id" : 1,
+      "id": 43,
+      "user_id": 1,
       "location_x": 31.4,
       "location_y": 32.5,
-      "score": -20,
-      "label": "졸음운전",
-      "capture" : "https://example.com/images/test.png",
-      "recorded_at": "1997-07-16T19:20:30.451Z"
+      "score": -18,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 44,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -17,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 45,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -16,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 46,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -15,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 47,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -14,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 48,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -13,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 49,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -12,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
+    },
+    {
+      "id": 50,
+      "user_id": 1,
+      "location_x": 31.4,
+      "location_y": 32.5,
+      "score": -11,
+      "label": "한손운전",
+      "capture": "https://example.com/images/test.png",
+      "recorded_at": ""
     }
   ]
 }

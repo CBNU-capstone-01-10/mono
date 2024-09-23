@@ -12,6 +12,7 @@ import redisClient from '../../src/database/clients/redis';
 import request from 'supertest';
 import fs from 'node:fs';
 import path from 'node:path';
+import moment from 'moment';
 
 const currUser = { ...testUserData.users[0] };
 
@@ -36,12 +37,6 @@ describe('Action API', () => {
     for (const user of testUserData.users) {
       await prismaClient.user.create({
         data: user,
-      });
-    }
-
-    for (const action of testActionData.actions) {
-      await prismaClient.action.create({
-        data: action,
       });
     }
 
@@ -105,24 +100,77 @@ describe('Action API', () => {
   });
 
   describe('GET', () => {
-    test('Response_200_With_Action', async () => {
-      const res = await request(mockApp).get(
-        `/actions/${testActionData.actions[0].id}`
-      );
+    beforeAll(async () => {
+      // date_start, date_end를 test하기 위한 seed를 삽입한다.
+      for (const set of Object.values(testActionData.actions)) {
+        for (const action of set) {
+          action.recorded_at = moment(action.recorded_at).toISOString();
 
-      expect(res.statusCode).toEqual(200);
+          await prismaClient.action.create({
+            data: action,
+          });
+        }
+      }
+
+      // before_m을 test하기 위한 seed를 삽입한다.
+      const curr = moment();
+
+      for (let i = 0; i < testActionData.emptyRecordedDateActions.length; i++) {
+        const action = testActionData.emptyRecordedDateActions[i];
+
+        action.recorded_at = curr.subtract(i, 'minute').toISOString();
+
+        await prismaClient.action.create({
+          data: action,
+        });
+      }
     });
 
-    test('Response_400_ActionId(?)', async () => {
-      const res = await request(mockApp).get(`/actions/actionIdMustBeString`);
+    describe('GET Action', () => {
+      test('Response_200_With_Action', async () => {
+        const res = await request(mockApp).get(
+          `/actions/${testActionData.actions.gap1s[0].id}`
+        );
 
-      expect(res.statusCode).toEqual(400);
+        expect(res.statusCode).toEqual(200);
+      });
+
+      test('Response_400_ActionId(?)', async () => {
+        const res = await request(mockApp).get(`/actions/actionIdMustBeString`);
+
+        expect(res.statusCode).toEqual(400);
+      });
+
+      test('Response_404', async () => {
+        const res = await request(mockApp).get(`/actions/7777777777777777`);
+
+        expect(res.statusCode).toEqual(404);
+      });
     });
 
-    test('Response_404', async () => {
-      const res = await request(mockApp).get(`/actions/7777777777777777`);
+    describe('GET Actions', () => {
+      test('Response_200_With_Action_before_m(x)', async () => {
+        const date_start = moment(testActionData.actions.gap1s[2].recorded_at);
+        const date_end = moment(testActionData.actions.gap1s[5].recorded_at);
 
-      expect(res.statusCode).toEqual(404);
+        const res = await request(mockApp).get(`/actions`).query({
+          date_start: date_start.toISOString(),
+          date_end: date_end.toISOString(),
+        });
+
+        expect(res.body.length).toEqual(5 - 2 + 1);
+        expect(res.statusCode).toEqual(200);
+      });
+
+      test('Response_200_With_Action_date_start(x)_date_end(x)', async () => {
+        const before_m = 5;
+
+        const res = await request(mockApp).get('/actions').query({
+          before_m,
+        });
+
+        expect(res.statusCode).toEqual(200);
+      });
     });
   });
 });

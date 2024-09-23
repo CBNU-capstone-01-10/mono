@@ -15,7 +15,16 @@ const getAction: ValidationSchema = {
   }),
 };
 
+const getActions: ValidationSchema = {
+  query: joi.object().keys({
+    date_start: joi.date().optional(),
+    date_end: joi.date().optional(),
+    before_m: joi.number().optional(),
+  }),
+};
+
 export default {
   createAction,
   getAction,
+  getActions,
 };
