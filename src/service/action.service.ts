@@ -55,6 +55,7 @@ export const getActions = async (data: ActionsGetInput) => {
 
     actions = await prismaClient.action.findMany({
       where: {
+        user_id: data.user_id,
         recorded_at: {
           lte: curr.toDate(),
           gte: end.toDate(),
