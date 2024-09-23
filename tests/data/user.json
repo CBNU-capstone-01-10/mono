@@ -79,5 +79,7 @@
       "password": "strongPassword12!",
       "email": "testEmail@test.com"
     }
-  }
+  },
+  "notFoundUserId": "0",
+  "invalidUserId": "userId"
 }

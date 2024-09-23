@@ -7,7 +7,10 @@ import { userService } from '../service/';
 const authMiddleware = asyncCatch(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.session.userId) {
-      const user = await userService.getUser(req.session.userId);
+      const user = await userService.getUser({
+        user_id: req.session.userId as number,
+        isSelf: false,
+      });
 
       if (user) {
         req.user = userService.getPublicUserInfo(user);

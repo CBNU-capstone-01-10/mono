@@ -5,9 +5,10 @@ import bcrypt from 'bcrypt';
 import mailer from '../utils/mailer';
 import pick from '../utils/pick';
 import moment from 'moment';
-import { PublicUserInfo } from '../../@types/user';
+import { PublicUserInfo, UserGetInput } from '../../@types/user';
 import { Request } from 'express';
 import otpGenerator from 'otp-generator';
+import httpStatusCode from 'http-status-codes';
 
 interface UserCreateInput {
   username: string;
@@ -20,10 +21,20 @@ interface UserLoginInput {
   password: string;
 }
 
-export const getUser = async (userId: number) => {
-  const user = await prismaClient.user.findUnique({ where: { id: userId } });
+export const getUser = async (data: UserGetInput) => {
+  const user = await prismaClient.user.findUnique({
+    where: { id: data.user_id },
+  });
 
-  return user;
+  if (!user) {
+    throw new wwsError(httpStatusCode.NOT_FOUND, '사용자를 찾을 수 없습니다.');
+  }
+
+  if (data.isSelf) {
+    return user;
+  }
+
+  return getPublicUserInfo(user);
 };
 
 export const createUser = async (data: UserCreateInput) => {

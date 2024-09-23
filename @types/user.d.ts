@@ -4,3 +4,8 @@ export interface PublicUserInfo {
   pfp: string;
   email: string;
 }
+
+export interface UserGetInput {
+  user_id: number;
+  isSelf: boolean;
+}
