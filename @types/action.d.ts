@@ -6,3 +6,8 @@ export interface ActionCreateInput {
   label: string;
   capture_file: Express.Multer.File;
 }
+
+export interface ActionGetInput {
+  user_id: number;
+  action_id: number;
+}

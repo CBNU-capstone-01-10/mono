@@ -9,6 +9,13 @@ const createAction: ValidationSchema = {
   file: joi.required(),
 };
 
+const getAction: ValidationSchema = {
+  params: joi.object().keys({
+    action_id: joi.number().required(),
+  }),
+};
+
 export default {
   createAction,
+  getAction,
 };

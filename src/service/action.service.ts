@@ -1,15 +1,13 @@
 import prismaClient from '../database';
-import { ActionCreateInput } from '../../@types/action';
+import { ActionCreateInput, ActionGetInput } from '../../@types/action';
 import { servingURL } from '../config/path.config';
-import mime from 'mime';
+import { wwsError } from '../error/wwsError';
 
 export const createAction = async (data: ActionCreateInput) => {
-  const fullImageName =
-    data.capture_file.filename +
-    '.' +
-    mime.extension(data.capture_file.mimetype);
-
-  const captureServingURL = new URL(fullImageName, servingURL.action.capture);
+  const captureServingURL = new URL(
+    data.capture_file.filename,
+    servingURL.action.capture
+  );
 
   const action = await prismaClient.action.create({
     data: {
@@ -21,6 +19,21 @@ export const createAction = async (data: ActionCreateInput) => {
       capture: captureServingURL.toString(),
     },
   });
+
+  return action;
+};
+
+export const getAction = async (data: ActionGetInput) => {
+  const action = await prismaClient.action.findFirst({
+    where: {
+      id: data.action_id,
+      user_id: data.user_id,
+    },
+  });
+
+  if (!action) {
+    throw new wwsError(404, 'action not found');
+  }
 
   return action;
 };

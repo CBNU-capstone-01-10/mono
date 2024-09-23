@@ -18,3 +18,12 @@ export const createAction = asyncCatch(async (req: Request, res: Response) => {
 
   return res.status(201).json(action);
 });
+
+export const getAction = asyncCatch(async (req: Request, res: Response) => {
+  const action = await actionService.getAction({
+    user_id: req.session.userId as number,
+    action_id: parseInt(req.params.action_id),
+  });
+
+  return res.status(200).json(action);
+});

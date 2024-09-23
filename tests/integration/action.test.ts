@@ -2,6 +2,8 @@ import prismaClient from '../../src/database';
 jest.unmock('../../src/database');
 
 import testUserData from '../data/user.json';
+import testActionData from '../data/action.json';
+
 import session from 'express-session';
 import express from 'express';
 import sessionConfig from '../../src/config/session.config';
@@ -36,6 +38,13 @@ describe('Action API', () => {
         data: user,
       });
     }
+
+    for (const action of testActionData.actions) {
+      await prismaClient.action.create({
+        data: action,
+      });
+    }
+
     await redisClient.connect();
   });
 
@@ -48,6 +57,7 @@ describe('Action API', () => {
 
     await prismaClient.action.deleteMany({});
     await prismaClient.user.deleteMany({});
+    await prismaClient.action.deleteMany({});
     await redisClient.disconnect();
   });
 
@@ -91,6 +101,28 @@ describe('Action API', () => {
         .field('location_y', 32.4);
 
       expect(res.statusCode).toEqual(400);
+    });
+  });
+
+  describe('GET', () => {
+    test('Response_200_With_Action', async () => {
+      const res = await request(mockApp).get(
+        `/actions/${testActionData.actions[0].id}`
+      );
+
+      expect(res.statusCode).toEqual(200);
+    });
+
+    test('Response_400_ActionId(?)', async () => {
+      const res = await request(mockApp).get(`/actions/actionIdMustBeString`);
+
+      expect(res.statusCode).toEqual(400);
+    });
+
+    test('Response_404', async () => {
+      const res = await request(mockApp).get(`/actions/7777777777777777`);
+
+      expect(res.statusCode).toEqual(404);
     });
   });
 });

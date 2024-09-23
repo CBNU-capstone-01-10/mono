@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import validate from '../middleware/validate';
 import actionValidation from '../validation/action.validation';
-import { createAction } from '../controller/action.controller';
+import { createAction, getAction } from '../controller/action.controller';
 import { uploadPath } from '../config/path.config';
 import mime from 'mime';
 import multer from 'multer';
@@ -24,6 +24,7 @@ const upload = multer({ storage });
 
 const router = Router();
 
+router.get('/:action_id', validate(actionValidation.getAction), getAction);
 router.post(
   '/',
   upload.single('capture'),
