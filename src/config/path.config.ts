@@ -5,7 +5,7 @@ const to = {
     pfp: 'user/pfp/',
   },
   action: {
-    capture: 'action/capture',
+    capture: 'action/capture/',
   },
 };
 
