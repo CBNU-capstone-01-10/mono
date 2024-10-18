@@ -19,4 +19,6 @@ export interface UserUpdateInput
   user_id: number;
   pfp?: UploadedFile;
   pfpToDefault?: boolean;
+  alias: string;
+  address?: string;
 }

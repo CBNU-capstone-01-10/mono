@@ -14,6 +14,8 @@ const updateUser: ValidationSchema = {
   body: joi.object().keys({
     username: joi.string().optional(),
     pfpToDefault: joi.boolean().optional(),
+    alias: joi.string().optional(),
+    address: joi.string().optional(),
   }),
 };
 

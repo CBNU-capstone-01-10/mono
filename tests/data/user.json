@@ -10,6 +10,8 @@
         "is_default": true,
         "user_id": 1
       },
+      "alias": "testAlias",
+      "address": "testAddress",
       "email_verification": {
         "create": {
           "email_verified": true,
@@ -27,6 +29,8 @@
         "is_default": true,
         "user_id": 2
       },
+      "alias": "testAlias",
+      "address": "testAddress",
       "email": "testEmail2@test.com",
       "email_verification": {
         "create": {
@@ -45,6 +49,8 @@
         "is_default": true,
         "user_id": 3
       },
+      "alias": "testAlias",
+      "address": "testAddress",
       "email": "testEmail3@test.com",
       "email_verification": {
         "create": {
@@ -58,7 +64,9 @@
   "newUser": {
     "username": "testUser4",
     "email": "testEmail4@test.com",
-    "password": "testStrongPassword"
+    "password": "testStrongPassword",
+    "alias": "testAlias",
+    "address": "testAddress"
   },
   "verifyQuery": {
     "invalid": {
@@ -72,6 +80,8 @@
     "pfp": "/default/pfp",
     "encrypted_password": "$2b$10$6ZbxBKRk1qdhySGQeN5Iw.CTA4XFCVGL9KHkZnabitdjSRegvBif2",
     "email": "testEmailExpired@test.com",
+    "alias": "testAlias",
+    "address": "testAddress",
     "email_verification": {
       "create": {
         "email_verified": false,

@@ -22,6 +22,8 @@ interface UserCreateInput {
   username: string;
   email: string;
   password: string;
+  alias: string;
+  address: string;
 }
 
 interface UserLoginInput {
@@ -94,6 +96,8 @@ export const createUser = async (data: UserCreateInput) => {
       pfp: { create: {} },
       encrypted_password,
       email: data.email,
+      alias: data.alias,
+      address: data.address,
       email_verification: {
         create: {
           verify_token,
@@ -196,7 +200,7 @@ export const logoutUser = (req: Request) => {
 };
 
 export const getPublicUserInfo = (user: Record<string, any>) =>
-  pick(user, ['id', 'username', 'pfp', 'email']) as PublicUserInfo;
+  pick(user, ['id', 'username', 'pfp', 'email', 'alias']) as PublicUserInfo;
 
 export async function updateUser(userId: number, data: UserUpdateInput) {
   const _data: Prisma.userUpdateInput = {};

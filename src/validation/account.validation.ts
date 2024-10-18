@@ -7,6 +7,8 @@ const register: ValidationSchema = {
     username: stringBase.withoutSpecialChar().min(1).max(12).required(),
     email: joi.string().required().email(),
     password: joi.string().min(12).max(36).required(),
+    alias: joi.string().required(),
+    address: joi.string().required(),
   }),
 };
 

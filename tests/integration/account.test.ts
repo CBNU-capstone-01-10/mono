@@ -42,6 +42,8 @@ describe('Account API Endpoints', () => {
             username: testUserData.newUser.username,
             password: testUserData.newUser.password,
             email: testUserData.newUser.email,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -57,6 +59,8 @@ describe('Account API Endpoints', () => {
             username: testUserData.users[0].username,
             email: testUserData.users[0].email,
             password: 'strongPassword12!',
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -72,6 +76,8 @@ describe('Account API Endpoints', () => {
           .send({
             email: testUserData.registerInput.valid.username,
             password: testUserData.registerInput.valid.password,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -87,6 +93,8 @@ describe('Account API Endpoints', () => {
           .send({
             username: testUserData.registerInput.valid.username,
             password: testUserData.registerInput.valid.password,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -102,6 +110,8 @@ describe('Account API Endpoints', () => {
           .send({
             username: testUserData.registerInput.valid.username,
             email: testUserData.registerInput.valid.email,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -118,6 +128,8 @@ describe('Account API Endpoints', () => {
             username: testUserData.registerInput.invalid.username,
             password: testUserData.registerInput.valid.password,
             email: testUserData.registerInput.valid.email,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -134,6 +146,8 @@ describe('Account API Endpoints', () => {
             username: testUserData.registerInput.valid.username,
             password: testUserData.registerInput.valid.password,
             email: testUserData.registerInput.invalid.email,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -150,6 +164,8 @@ describe('Account API Endpoints', () => {
             username: testUserData.registerInput.valid.username,
             password: testUserData.registerInput.invalid.password,
             email: testUserData.registerInput.valid.email,
+            alias: testUserData.newUser.alias,
+            address: testUserData.newUser.address,
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',

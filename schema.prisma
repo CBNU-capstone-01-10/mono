@@ -18,6 +18,8 @@ model user {
   pfp                pfp?
   created_at         DateTime            @default(now())
   updated_at         DateTime            @updatedAt
+  alias              String
+  address            String
   email_verification email_verification?
   action             action[]
 }
