@@ -7,24 +7,7 @@ import {
   getAction,
   getActions,
 } from '../controller/action.controller';
-import { uploadPath } from '../config/path.config';
-import mime from 'mime';
-import multer from 'multer';
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadPath.action.capture);
-  },
-  filename: function (req, file, cb) {
-    const extension = mime.extension(file.mimetype);
-
-    if (extension) {
-      cb(null, (req.session.userId as number) + Date.now() + '.' + extension);
-    }
-  },
-});
-
-const upload = multer({ storage });
+import upload from 'express-fileupload';
 
 const router = Router();
 
@@ -32,7 +15,7 @@ router.get('/', validate(actionValidation.getActions), getActions);
 router.get('/:action_id', validate(actionValidation.getAction), getAction);
 router.post(
   '/',
-  upload.single('capture'),
+  upload({ limits: { files: 1 } }),
   validate(actionValidation.createAction),
   createAction
 );

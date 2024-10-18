@@ -6,7 +6,9 @@ const createAction: ValidationSchema = {
     location_x: joi.number().required(),
     location_y: joi.number().required(),
   }),
-  file: joi.required(),
+  files: joi.object().required().keys({
+    capture: joi.object().required(),
+  }),
 };
 
 const getAction: ValidationSchema = {

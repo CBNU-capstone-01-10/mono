@@ -4,15 +4,15 @@ import {
   ActionGetInput,
   ActionsGetInput,
 } from '../../@types/action';
-import { servingURL } from '../config/path.config';
+import { to, uploadPath } from '../config/path.config';
 import { wwsError } from '../error/wwsError';
 import moment from 'moment';
+import path from 'path';
 
 export const createAction = async (data: ActionCreateInput) => {
-  const captureServingURL = new URL(
-    data.capture_file.filename,
-    servingURL.action.capture
-  );
+  const captureFileName = data.user_id + '-' + Date.now().toString() + '.png';
+
+  data.capture_file.mv(path.join(uploadPath.action.capture, captureFileName));
 
   const action = await prismaClient.action.create({
     data: {
@@ -21,7 +21,7 @@ export const createAction = async (data: ActionCreateInput) => {
       location_y: data.location_y,
       label: data.label,
       score: data.score,
-      capture: captureServingURL.toString(),
+      capture: path.join(to.action.capture, captureFileName),
     },
   });
 

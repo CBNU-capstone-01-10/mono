@@ -12,6 +12,8 @@ app.use(session(sessionConfig));
 //urlencoded body parser
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.json());
+
 //serve statics
 app.use(express.static(`${process.cwd()}/public`));
 app.use(express.static(`${process.cwd()}/uploads`));

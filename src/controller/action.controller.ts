@@ -1,6 +1,7 @@
 import asyncCatch from '../utils/asyncCatch';
 import { Request, Response } from 'express';
 import { actionService } from '../service';
+import { UploadedFile } from 'express-fileupload';
 
 export const createAction = asyncCatch(async (req: Request, res: Response) => {
   // must replace response of model
@@ -13,7 +14,7 @@ export const createAction = asyncCatch(async (req: Request, res: Response) => {
     location_y: parseFloat(req.body.location_y),
     score,
     label,
-    capture_file: req.file as Express.Multer.File,
+    capture_file: req.files?.capture as UploadedFile,
   });
 
   return res.status(201).json(action);

@@ -5,10 +5,18 @@ import bcrypt from 'bcrypt';
 import mailer from '../utils/mailer';
 import pick from '../utils/pick';
 import moment from 'moment';
-import { PublicUserInfo, UserGetInput } from '../../@types/user';
+import {
+  PublicUserInfo,
+  UserGetInput,
+  UserUpdateInput,
+} from '../../@types/user';
 import { Request } from 'express';
 import otpGenerator from 'otp-generator';
 import httpStatusCode from 'http-status-codes';
+import { Prisma } from '@prisma/client';
+import fs from 'node:fs';
+import { to, uploadPath } from '../config/path.config';
+import path from 'node:path';
 
 interface UserCreateInput {
   username: string;
@@ -24,6 +32,7 @@ interface UserLoginInput {
 export const getUser = async (data: UserGetInput) => {
   const user = await prismaClient.user.findUnique({
     where: { id: data.user_id },
+    include: { pfp: true },
   });
 
   if (!user) {
@@ -82,7 +91,7 @@ export const createUser = async (data: UserCreateInput) => {
   const createdUser = await prismaClient.user.create({
     data: {
       username: data.username,
-      pfp: '',
+      pfp: { create: {} },
       encrypted_password,
       email: data.email,
       email_verification: {
@@ -92,6 +101,9 @@ export const createUser = async (data: UserCreateInput) => {
           expired_at: moment().add(15, 'minute').toDate(),
         },
       },
+    },
+    include: {
+      pfp: true,
     },
   });
 
@@ -152,11 +164,14 @@ export const loginUser = async (body: UserLoginInput) => {
         email_verified: true,
       },
     },
+    include: {
+      pfp: true,
+    },
   });
 
   if (user) {
     if (await bcrypt.compare(body.password, user.encrypted_password)) {
-      return getPublicUserInfo(user);
+      return user;
     }
   }
 
@@ -182,3 +197,64 @@ export const logoutUser = (req: Request) => {
 
 export const getPublicUserInfo = (user: Record<string, any>) =>
   pick(user, ['id', 'username', 'pfp', 'email']) as PublicUserInfo;
+
+export async function updateUser(userId: number, data: UserUpdateInput) {
+  const _data: Prisma.userUpdateInput = {};
+
+  const user = await prismaClient.user.findFirst({
+    where: { id: userId },
+    include: { pfp: true },
+  });
+
+  // 아무것도 전달되지 않았다면, 업데이트 되지 않은 user 그대로를 return한다.
+  if (!data.username && !data.pfpToDefault && !data.pfp) {
+    return user;
+  }
+
+  // username이 전달되었다면, 추가
+  if (data.username) {
+    _data.username = data.username;
+  }
+
+  // pfp를 default나 새로운 image로 변경하려고할 때,user의 pfp가 default가 아니라면 제거한다.
+  if (data.pfpToDefault || data.pfp) {
+    if (!user!.pfp!.is_default) {
+      fs.unlinkSync(path.join(uploadPath.user.pfp, `${userId}.png`));
+    }
+  }
+  // default로 변경하려고한다면
+  if (data.pfpToDefault) {
+    // 이미 default가 아니라면
+    if (!user!.pfp!.is_default) {
+      const pfpPath = path.join(to.default.pfp, 'pfp.png');
+
+      _data.pfp = {
+        update: {
+          curr: pfpPath,
+          is_default: true,
+        },
+      };
+    }
+    // 이미 default라면 건들필요 없다.
+  }
+  // default로 변경하려는 것이 아니고, 다른 image로 변경하려고한다면
+  else if (data.pfp) {
+    await data.pfp.mv(path.join(uploadPath.user.pfp, `${userId}.png`));
+
+    const pfpPath = path.join(to.pfp, `${userId}.png`);
+
+    _data.pfp = { update: { curr: pfpPath, is_default: false } };
+  }
+
+  const updatedUser = await prismaClient.user.update({
+    where: {
+      id: userId,
+    },
+    data: _data,
+    include: {
+      pfp: true,
+    },
+  });
+
+  return updatedUser;
+}

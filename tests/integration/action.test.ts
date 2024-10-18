@@ -36,7 +36,7 @@ describe('Action API', () => {
   beforeAll(async () => {
     for (const user of testUserData.users) {
       await prismaClient.user.create({
-        data: user,
+        data: { ...user, pfp: { create: {} } },
       });
     }
 
@@ -50,7 +50,6 @@ describe('Action API', () => {
       fs.unlinkSync(path.join('./uploads/action/capture', uploadedFilePath));
     }
 
-    await prismaClient.action.deleteMany({});
     await prismaClient.user.deleteMany({});
     await prismaClient.action.deleteMany({});
     await redisClient.disconnect();

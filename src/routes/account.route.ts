@@ -6,15 +6,15 @@ import {
   logout,
 } from '../controller/account.controller';
 
-import { userValidation } from '../validation';
+import { accountValidation } from '../validation';
 import validate from '../middleware/validate';
 import authMiddleware from '../middleware/auth';
 
 const router = Router();
 
-router.post('/login', validate(userValidation.login), login);
-router.post('/register', validate(userValidation.register), register);
-router.post('/register/verify', validate(userValidation.verify), verify);
+router.post('/login', validate(accountValidation.login), login);
+router.post('/register', validate(accountValidation.register), register);
+router.post('/register/verify', validate(accountValidation.verify), verify);
 router.delete('/logout', authMiddleware, logout);
 
 export default router;

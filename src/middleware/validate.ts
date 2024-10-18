@@ -1,36 +1,25 @@
-import joi from 'joi';
-import httpStatusCode from 'http-status-codes';
+import Joi from 'joi';
 import pick from '../utils/pick';
+import HttpStatusCode from 'http-status-codes';
 import { wwsError } from '../error/wwsError';
-import { NextFunction, Request, Response } from 'express';
-import { ValidationSchema } from '../../@types/validator';
-import asyncCatch from '../utils/asyncCatch';
+import { Request, Response, NextFunction } from 'express';
 
-const validate = (validationSchema: ValidationSchema) =>
-  asyncCatch(async (req: Request, res: Response, next: NextFunction) => {
-    //get validate target object from req object
-    const object = pick(
-      req,
-      Object.keys(validationSchema) as Array<keyof ValidationSchema>
-    );
-
-    //validation object with validatioSchema
-    const { error } = joi
-      .compile(validationSchema)
+const validate =
+  (schema: any) => (req: Request, res: Response, next: NextFunction) => {
+    const validSchema = pick(schema, ['params', 'query', 'body', 'files']);
+    const object = pick(req, Object.keys(validSchema));
+    const { value, error } = Joi.compile(validSchema)
       .prefs({ errors: { label: 'key' }, abortEarly: false })
       .validate(object);
 
-    //if invalid, response error message with 400
     if (error) {
       const errorMessage = error.details
         .map((details) => details.message)
         .join(', ');
-
-      return next(new wwsError(httpStatusCode.BAD_REQUEST, errorMessage));
+      return next(new wwsError(HttpStatusCode.BAD_REQUEST, errorMessage));
     }
-
-    //next
+    Object.assign(req, value);
     return next();
-  });
+  };
 
 export default validate;

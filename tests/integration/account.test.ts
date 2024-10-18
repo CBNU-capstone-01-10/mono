@@ -17,7 +17,7 @@ describe('Account API Endpoints', () => {
   beforeAll(async () => {
     for (const user of testUserData.users) {
       await prismaClient.user.create({
-        data: user,
+        data: { ...user, pfp: { create: {} } },
       });
     }
 
@@ -35,8 +35,8 @@ describe('Account API Endpoints', () => {
   describe('Register', () => {
     describe('POST', () => {
       // 정상적인 회원가입 요청에 대해 200을 응답받아야한다.
-      test('Response_201', (done) => {
-        request(app)
+      test('Response_201', async () => {
+        const res = await request(app)
           .post('/register')
           .send({
             username: testUserData.newUser.username,
@@ -45,9 +45,8 @@ describe('Account API Endpoints', () => {
           })
           .set({
             'Content-Type': 'application/x-www-form-urlencoded',
-          })
-          .expect(201)
-          .end(done);
+          });
+        expect(res.statusCode).toEqual(201);
       });
 
       // 이미 등록된 이메일이 포함된 회원가입 요청에 대해 409를 응답받아야한다.
@@ -168,7 +167,7 @@ describe('Account API Endpoints', () => {
           moment().subtract(16, 'minute').toDate().toISOString();
 
         await prismaClient.user.create({
-          data: testUserData.expired_user,
+          data: { ...testUserData.expired_user, pfp: { create: {} } },
         });
       });
 
