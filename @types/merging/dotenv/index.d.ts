@@ -24,6 +24,8 @@ declare namespace NodeJS {
     API_SERVER_ORIGIN: string;
     FOR_DEVELOPER_ORIGIN: string;
 
+    DETECTION_SERVER: string;
+
     CORS_ALLOWED_ORIGIN: string;
   }
 }
