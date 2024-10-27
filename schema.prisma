@@ -41,13 +41,14 @@ model email_verification {
 }
 
 model action {
-  id          Int      @id @default(autoincrement())
-  label       String
-  score       Int
-  location_x  Float
-  location_y  Float
-  capture     String
-  recorded_at DateTime @default(now())
-  user_id     Int
-  user        user?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id           Int      @id @default(autoincrement())
+  label        String?
+  score        Int
+  location_x   Float
+  location_y   Float
+  capture      String
+  safe_driving Boolean
+  recorded_at  DateTime @default(now())
+  user_id      Int
+  user         user?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
