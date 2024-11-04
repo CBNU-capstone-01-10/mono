@@ -27,6 +27,8 @@ export const getActions = asyncCatch(async (req: Request, res: Response) => {
   const actions = await actionService.getActions({
     user_id: req.session.userId as number,
     ...req.query,
+    per_page: parseInt(req.query.per_page as string),
+    page: parseInt(req.query.page as string),
   });
 
   return res.status(200).json(actions);

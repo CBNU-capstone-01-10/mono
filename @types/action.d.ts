@@ -17,4 +17,6 @@ export interface ActionsGetInput {
   date_start?: Date;
   date_end?: Date;
   before_m?: number;
+  per_page: number;
+  page: number;
 }

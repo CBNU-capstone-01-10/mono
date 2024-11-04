@@ -22,6 +22,8 @@ const getActions: ValidationSchema = {
     date_start: joi.date().optional(),
     date_end: joi.date().optional(),
     before_m: joi.number().optional(),
+    per_page: joi.number().default(1).min(1).max(100),
+    page: joi.number().default(1),
   }),
 };
 

@@ -161,6 +161,8 @@ export const getActions = async (data: ActionsGetInput) => {
     const end = moment().subtract(data.before_m, 'minute');
 
     actions = await prismaClient.action.findMany({
+      skip: (data.page - 1) * data.per_page,
+      take: data.per_page,
       where: {
         user_id: data.user_id,
         recorded_at: {
@@ -178,6 +180,8 @@ export const getActions = async (data: ActionsGetInput) => {
     }
 
     actions = await prismaClient.action.findMany({
+      skip: (data.page - 1) * data.per_page,
+      take: data.per_page,
       where: {
         recorded_at: {
           lte: date_end.toDate(),
