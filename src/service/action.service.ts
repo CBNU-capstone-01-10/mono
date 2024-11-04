@@ -171,6 +171,8 @@ export const getActions = async (data: ActionsGetInput) => {
           gte: end.toDate(),
         },
       },
+
+      orderBy: [{ recorded_at: 'desc' }],
     });
   } else if (!data.before_m && data.date_start && data.date_end) {
     const date_start = moment(data.date_start);
@@ -189,6 +191,7 @@ export const getActions = async (data: ActionsGetInput) => {
           gte: date_start.toDate(),
         },
       },
+      orderBy: [{ recorded_at: 'desc' }],
     });
   }
   // 둘이 모두 명시되어있지 않다면, 잘못된 요청이다.
