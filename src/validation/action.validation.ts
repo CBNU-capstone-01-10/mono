@@ -27,8 +27,16 @@ const getActions: ValidationSchema = {
   }),
 };
 
+const getScoreSum: ValidationSchema = {
+  query: joi.object().keys({
+    date_start: joi.date(),
+    date_end: joi.date(),
+  }),
+};
+
 export default {
   createAction,
   getAction,
   getActions,
+  getScoreSum,
 };

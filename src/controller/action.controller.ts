@@ -33,3 +33,12 @@ export const getActions = asyncCatch(async (req: Request, res: Response) => {
 
   return res.status(200).json(actions);
 });
+
+export const getScoreSum = asyncCatch(async (req: Request, res: Response) => {
+  const sum = await actionService.getScoreSum({
+    user_id: req.session.userId as number,
+    ...req.query,
+  });
+
+  return res.status(200).json(sum);
+});

@@ -3,6 +3,7 @@ import {
   ActionCreateInput,
   ActionGetInput,
   ActionsGetInput,
+  ScoreSumGet,
 } from '../../@types/action';
 import { to, uploadPath } from '../config/path.config';
 import { wwsError } from '../error/wwsError';
@@ -200,4 +201,19 @@ export const getActions = async (data: ActionsGetInput) => {
   }
 
   return actions;
+};
+
+export const getScoreSum = async (data: ScoreSumGet) => {
+  const scoreSum = await prismaClient.action.aggregate({
+    where: {
+      user_id: data.user_id,
+      recorded_at: {
+        gte: data.date_start,
+        lte: data.date_end,
+      },
+    },
+    _sum: { score: true },
+  });
+
+  return scoreSum;
 };

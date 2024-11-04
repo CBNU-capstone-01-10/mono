@@ -6,6 +6,7 @@ import {
   createAction,
   getAction,
   getActions,
+  getScoreSum,
 } from '../controller/action.controller';
 import upload from 'express-fileupload';
 
@@ -19,5 +20,7 @@ router.post(
   validate(actionValidation.createAction),
   createAction
 );
+
+router.get('/scores/sum', validate(actionValidation.getScoreSum), getScoreSum);
 
 export default router;
