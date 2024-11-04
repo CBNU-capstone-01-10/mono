@@ -89,6 +89,7 @@ export const createAction = async (data: ActionCreateInput) => {
             score: {
               increment: score,
             },
+            recorded_at: new Date(),
           },
         });
 
