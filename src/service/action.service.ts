@@ -171,6 +171,9 @@ export const getActions = async (data: ActionsGetInput) => {
           lte: curr.toDate(),
           gte: end.toDate(),
         },
+        safe_driving: data.safe_driving
+          ? data.safe_driving === 'true'
+          : undefined,
       },
 
       orderBy: [{ recorded_at: 'desc' }],
@@ -182,7 +185,6 @@ export const getActions = async (data: ActionsGetInput) => {
     if (date_start > date_end) {
       throw new wwsError(400, 'date_start can not greater than date_end');
     }
-
     actions = await prismaClient.action.findMany({
       skip: (data.page - 1) * data.per_page,
       take: data.per_page,
@@ -191,6 +193,9 @@ export const getActions = async (data: ActionsGetInput) => {
           lte: date_end.toDate(),
           gte: date_start.toDate(),
         },
+        safe_driving: data.safe_driving
+          ? data.safe_driving === 'true'
+          : undefined,
       },
       orderBy: [{ recorded_at: 'desc' }],
     });

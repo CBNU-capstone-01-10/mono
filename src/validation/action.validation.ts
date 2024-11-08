@@ -24,6 +24,7 @@ const getActions: ValidationSchema = {
     before_m: joi.number().optional(),
     per_page: joi.number().default(1).min(1).max(100),
     page: joi.number().default(1),
+    safe_driving: joi.string().allow('true', 'false').optional(),
   }),
 };
 
