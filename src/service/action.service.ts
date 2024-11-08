@@ -15,7 +15,7 @@ export const createAction = async (data: ActionCreateInput) => {
   formData.append('image', new Blob([data.capture_file.data]));
 
   const detectionResponse = await fetch(
-    `${process.env.DETECTIOR_SERVER}/detect`,
+    `${process.env.DETECTION_SERVER}/detect`,
     {
       method: 'POST',
       body: formData,
