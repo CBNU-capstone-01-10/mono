@@ -155,6 +155,8 @@ describe('Action API', () => {
         const res = await request(mockApp).get(`/actions`).query({
           date_start: date_start.toISOString(),
           date_end: date_end.toISOString(),
+          page: 1,
+          per_page: 10,
         });
 
         expect(res.body.length).toEqual(5 - 2 + 1);
