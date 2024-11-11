@@ -29,7 +29,7 @@ export const createAction = async (data: ActionCreateInput) => {
 
     const captureFileName = data.user_id + '-' + Date.now().toString() + '.png';
 
-    const { label, safe_driving, detail } = detectionResult;
+    const { label, safe_driving } = detectionResult;
     const _label = label.length ? label[0] : null;
     let action;
 
@@ -64,10 +64,15 @@ export const createAction = async (data: ActionCreateInput) => {
         else {
           // 같은 라벨이라면
           if (label == latestAction.label) {
+            // 최근 action에 score에 10을 감소시켜 update한다.
             score = -10;
           }
           // 다른 label이라면, record를 생성해야한다.
           else {
+            data.capture_file.mv(
+              path.join(uploadPath.action.capture, captureFileName)
+            );
+
             action = await prismaClient.action.create({
               data: {
                 user_id: data.user_id,
@@ -103,6 +108,10 @@ export const createAction = async (data: ActionCreateInput) => {
       // 안전운전 vs 위험운전
       // 인경우가 여기 포함된다.
       else {
+        data.capture_file.mv(
+          path.join(uploadPath.action.capture, captureFileName)
+        );
+
         action = await prismaClient.action.create({
           data: {
             user_id: data.user_id,
@@ -119,6 +128,10 @@ export const createAction = async (data: ActionCreateInput) => {
     }
     // 최근 action이 없다면 그냥 생성하면 된다.
     else {
+      data.capture_file.mv(
+        path.join(uploadPath.action.capture, captureFileName)
+      );
+
       const action = await prismaClient.action.create({
         data: {
           user_id: data.user_id,
