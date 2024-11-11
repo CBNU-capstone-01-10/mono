@@ -25,6 +25,8 @@ export const createAction = async (data: ActionCreateInput) => {
   if (detectionResponse.status === 200) {
     const detectionResult = await detectionResponse.json();
 
+    const nearUnsafeActions = await getRecentUnsafeActions();
+
     const captureFileName = data.user_id + '-' + Date.now().toString() + '.png';
 
     const { label, safe_driving, detail } = detectionResult;
@@ -78,7 +80,7 @@ export const createAction = async (data: ActionCreateInput) => {
               },
             });
 
-            return action;
+            return { action, nearUnsafeActions };
           }
         }
 
@@ -94,7 +96,7 @@ export const createAction = async (data: ActionCreateInput) => {
           },
         });
 
-        return action;
+        return { action, nearUnsafeActions };
       }
       // 최근 action은 존재하지만, 둘의 safe_driving이 다른경우 새로운 record를 생성한다.
       // 위험운전 vs 안전운전
@@ -113,7 +115,7 @@ export const createAction = async (data: ActionCreateInput) => {
           },
         });
       }
-      return action;
+      return { action, nearUnsafeActions };
     }
     // 최근 action이 없다면 그냥 생성하면 된다.
     else {
@@ -129,7 +131,7 @@ export const createAction = async (data: ActionCreateInput) => {
         },
       });
 
-      return action;
+      return { action, nearUnsafeActions };
     }
   }
   // detector server응답이 200이 아니라면
@@ -222,3 +224,54 @@ export const getScoreSum = async (data: ScoreSumGet) => {
 
   return scoreSum;
 };
+
+async function getRecentUnsafeActions() {
+  const tenSecondsAgo = new Date(Date.now() - 5 * 1000);
+
+  const recentUnsafeActions = await prismaClient.action.findMany({
+    where: {
+      recorded_at: {
+        gte: tenSecondsAgo,
+      },
+      safe_driving: false,
+    },
+    distinct: ['user_id'],
+  });
+
+  return recentUnsafeActions;
+}
+
+// async function findNearDangerousUser(
+//   latitude: number,
+//   longitude: number,
+//   radiusInMeters: number = 5
+// ) {
+//   const EARTH_RADIUS = 6371000;
+
+//   const actions = await prismaClient.$queryRaw`
+//     SELECT id, user_id, latitude, longitude,
+//     (
+//       ${EARTH_RADIUS} * acos(
+//         cos(radians(${latitude})) *
+//         cos(radians(latitude)) *
+//         cos(radians(longitude) - radians(${longitude})) +
+//         sin(radians(${latitude})) *
+//         sin(radians(latitude))
+//       )
+//     ) AS distance
+//     FROM action
+//     WHERE (
+//       ${EARTH_RADIUS} * acos(
+//         cos(radians(${latitude})) *
+//         cos(radians(latitude)) *
+//         cos(radians(longitude) - radians(${longitude})) +
+//         sin(radians(${latitude})) *
+//         sin(radians(latitude))
+//       )
+//     ) <= ${radiusInMeters}
+//     AND created_at >= NOW() - INTERVAL '10 seconds'
+//     AND safe_driving = false
+//   `;
+
+//   return actions;
+// }

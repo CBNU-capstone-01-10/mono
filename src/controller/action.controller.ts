@@ -4,14 +4,14 @@ import { actionService } from '../service';
 import { UploadedFile } from 'express-fileupload';
 
 export const createAction = asyncCatch(async (req: Request, res: Response) => {
-  const action = await actionService.createAction({
+  const { action, nearUnsafeActions } = await actionService.createAction({
     user_id: req.session.userId as number,
     location_x: parseFloat(req.body.location_x),
     location_y: parseFloat(req.body.location_y),
     capture_file: req.files?.capture as UploadedFile,
   });
 
-  return res.status(201).json(action);
+  return res.status(201).json({ action, nearUnsafeActions });
 });
 
 export const getAction = asyncCatch(async (req: Request, res: Response) => {
