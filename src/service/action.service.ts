@@ -230,7 +230,7 @@ async function getRecentUnsafeActions(userId: number) {
 
   const recentUnsafeActions = await prismaClient.action.findMany({
     where: {
-      id: {
+      user_id: {
         not: userId,
       },
       recorded_at: {
