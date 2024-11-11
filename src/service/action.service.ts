@@ -25,7 +25,7 @@ export const createAction = async (data: ActionCreateInput) => {
   if (detectionResponse.status === 200) {
     const detectionResult = await detectionResponse.json();
 
-    const nearUnsafeActions = await getRecentUnsafeActions();
+    const nearUnsafeActions = await getRecentUnsafeActions(data.user_id);
 
     const captureFileName = data.user_id + '-' + Date.now().toString() + '.png';
 
@@ -225,11 +225,14 @@ export const getScoreSum = async (data: ScoreSumGet) => {
   return scoreSum;
 };
 
-async function getRecentUnsafeActions() {
-  const tenSecondsAgo = new Date(Date.now() - 5 * 1000);
+async function getRecentUnsafeActions(userId: number) {
+  const tenSecondsAgo = new Date(Date.now() - 60 * 1000);
 
   const recentUnsafeActions = await prismaClient.action.findMany({
     where: {
+      id: {
+        not: userId,
+      },
       recorded_at: {
         gte: tenSecondsAgo,
       },
