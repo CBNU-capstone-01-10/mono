@@ -13,6 +13,7 @@ import path from 'path';
 export const createAction = async (data: ActionCreateInput) => {
   const formData = new FormData();
   formData.append('image', new Blob([data.capture_file.data]));
+  formData.append('user_id', data.user_id.toString());
 
   const detectionResponse = await fetch(
     `${process.env.DETECTION_SERVER}/detect`,
