@@ -27,5 +27,7 @@ declare namespace NodeJS {
     DETECTION_SERVER: string;
 
     CORS_ALLOWED_ORIGIN: string;
+
+    Warning_M: string;
   }
 }
