@@ -44,7 +44,8 @@ export const createAction = async (data: ActionCreateInput) => {
       },
     });
 
-    const ago = new Date(Date.now() - parseInt(process.env.Warning_M) * 1000); // 현재 시간에서 1분 전 시간 계산
+    const minute = 1;
+    const ago = new Date(Date.now() - minute * 60 * 1000); // 현재 시간에서 1분 전 시간 계산
 
     // 최근 action이 존재히며, 그게 1분전이라면 latestAction으로 판정
     if (latestAction && latestAction.recorded_at >= ago) {
@@ -239,9 +240,11 @@ export const getScoreSum = async (data: ScoreSumGet) => {
 };
 
 async function getRecentUnsafeActions(userId: number) {
-  const tenSecondsAgo = new Date(Date.now() - 60 * 1000);
+  const tenSecondsAgo = new Date(
+    Date.now() - parseInt(process.env.Warning_M) * 1000
+  );
 
-  const recentUnsafeActions = await prismaClient.action.findFirst({
+  const recentUnsafeActions = await prismaClient.action.findMany({
     where: {
       user_id: {
         not: userId,
