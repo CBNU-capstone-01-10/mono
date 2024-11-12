@@ -28,7 +28,7 @@ model user {
 model pfp {
   user_id    Int     @unique
   user       user    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  curr       String  @default("/default/pfp")
+  curr       String  @default("/default/pfp.png")
   is_default Boolean @default(true)
 }
 
