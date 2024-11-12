@@ -203,7 +203,10 @@ export const getPublicUserInfo = (user: Record<string, any>) =>
   pick(user, ['id', 'username', 'pfp', 'email', 'alias']) as PublicUserInfo;
 
 export async function updateUser(userId: number, data: UserUpdateInput) {
-  const _data: Prisma.userUpdateInput = {};
+  const _data: Prisma.userUpdateInput = {
+    alias: data.alias,
+    address: data.address,
+  };
 
   const user = await prismaClient.user.findFirst({
     where: { id: userId },
