@@ -16,6 +16,7 @@ const updateUser: ValidationSchema = {
     pfpToDefault: joi.boolean().optional(),
     alias: joi.string().optional(),
     address: joi.string().optional(),
+    pfp: joi.string().optional(),
   }),
 };
 
